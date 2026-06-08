@@ -1,6 +1,4 @@
-import os
 from datetime import datetime
-import requests
 
 LOG_API_URL = "https://jsonplaceholder.typicode.com/posts/1"
 
@@ -22,6 +20,11 @@ def generate_log(data):
 
 def fetch_data():
     """Fetch a sample post from the public JSONPlaceholder API."""
+    try:
+        import requests
+    except ImportError as exc:
+        raise RuntimeError("The requests package is required to fetch API data.") from exc
+
     response = requests.get(LOG_API_URL, timeout=10)
     response.raise_for_status()
     return response.json()
